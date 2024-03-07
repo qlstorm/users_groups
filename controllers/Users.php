@@ -90,7 +90,7 @@ class Users {
         foreach ($usersList as &$user) {
             $user['privileges'] = [];
 
-            if ($privilegesList && $privilegesList[$user['id']]) {
+            if (isset($privilegesList[$user['id']])) {
                 $user['privileges'] = $privilegesList[$user['id']];
             }
         }
