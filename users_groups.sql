@@ -19,13 +19,14 @@ CREATE TABLE IF NOT EXISTS `groups` (
   `id` int NOT NULL AUTO_INCREMENT,
   `name` varchar(50) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
--- Дамп данных таблицы users_groups.groups: ~0 rows (приблизительно)
+-- Дамп данных таблицы users_groups.groups: ~4 rows (приблизительно)
 INSERT INTO `groups` (`id`, `name`) VALUES
 	(1, 'group1'),
 	(2, 'group2'),
-	(3, 'group3');
+	(3, 'group3'),
+	(4, 'group4');
 
 -- Дамп структуры для таблица users_groups.privileges
 CREATE TABLE IF NOT EXISTS `privileges` (
@@ -34,7 +35,7 @@ CREATE TABLE IF NOT EXISTS `privileges` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
--- Дамп данных таблицы users_groups.privileges: ~0 rows (приблизительно)
+-- Дамп данных таблицы users_groups.privileges: ~3 rows (приблизительно)
 INSERT INTO `privileges` (`id`, `name`) VALUES
 	(1, 'send_messages'),
 	(2, 'service_api'),
@@ -47,13 +48,14 @@ CREATE TABLE IF NOT EXISTS `privileges_groups` (
   KEY `group_id` (`group_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
--- Дамп данных таблицы users_groups.privileges_groups: ~0 rows (приблизительно)
+-- Дамп данных таблицы users_groups.privileges_groups: ~6 rows (приблизительно)
 INSERT INTO `privileges_groups` (`privilege_id`, `group_id`) VALUES
 	(1, 1),
 	(2, 2),
 	(1, 3),
 	(2, 3),
-	(3, 3);
+	(3, 3),
+	(3, 4);
 
 -- Дамп структуры для таблица users_groups.users
 CREATE TABLE IF NOT EXISTS `users` (
@@ -72,15 +74,17 @@ INSERT INTO `users` (`id`, `name`) VALUES
 CREATE TABLE IF NOT EXISTS `users_groups` (
   `user_id` int NOT NULL,
   `group_id` int NOT NULL,
+  `exclude` tinyint DEFAULT NULL,
   PRIMARY KEY (`user_id`,`group_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
--- Дамп данных таблицы users_groups.users_groups: ~0 rows (приблизительно)
-INSERT INTO `users_groups` (`user_id`, `group_id`) VALUES
-	(1, 1),
-	(1, 2),
-	(2, 3),
-	(3, 3);
+-- Дамп данных таблицы users_groups.users_groups: ~5 rows (приблизительно)
+INSERT INTO `users_groups` (`user_id`, `group_id`, `exclude`) VALUES
+	(1, 1, NULL),
+	(1, 2, NULL),
+	(2, 3, NULL),
+	(2, 4, 1),
+	(3, 3, NULL);
 
 /*!40103 SET TIME_ZONE=IFNULL(@OLD_TIME_ZONE, 'system') */;
 /*!40101 SET SQL_MODE=IFNULL(@OLD_SQL_MODE, '') */;

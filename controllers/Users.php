@@ -61,11 +61,22 @@ class Users {
                 privileges.name privileges_name
             from users
             left join users_groups on
-                users_groups.user_id = users.id
+                users_groups.user_id = users.id and
+                users_groups.exclude is null
             left join privileges_groups on
                 privileges_groups.group_id = users_groups.group_id
             left join privileges on
-                privileges.id = privileges_groups.privilege_id
+                privileges.id = privileges_groups.privilege_id and
+                privileges.id not in (
+                    select
+                        privileges_groups.privilege_id
+                    from users_groups
+                    left join privileges_groups on
+                        privileges_groups.group_id = users_groups.group_id
+                    where
+                        users_groups.user_id = users.id and
+                        users_groups.exclude = 1
+                )
             where
                 users.id = ' . (int)App::$params[1] . '
             order by privileges.id
